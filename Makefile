@@ -3,6 +3,8 @@ VERSION := 0.1.2
 clean:
 	-rm -rf dist
 	-rm -rf env
+build:
+	npm run build
 
 patch:
 	git aftermerge patch || exit 1
