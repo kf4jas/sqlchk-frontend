@@ -105,9 +105,6 @@
 	input{
         width: 100%;
     }
-    .shown {
-		display: none;
-	}
 </style>
 
 <svelte:head>
