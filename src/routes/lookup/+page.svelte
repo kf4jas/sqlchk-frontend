@@ -112,24 +112,25 @@
 	<meta name="description" content="About this app" />
 </svelte:head>
 
-<div class="text-column">
-<h1>SQL Lookup</h1>
+<div class="mt-4 p-5 bg-secondary-subtle rounded">
+    <h1>SQLChk Lookup</h1>
 
-<section>
-	<h2>Query Database</h2>
-	<div>
-		<label for="constrinput">Connection String</label>
-		<input type="text" id="constrinput" bind:value={constrinput} />
-		<label for="query">Query</label>
-        <textarea rows="10" id="query" bind:value={sqlinput}></textarea>
-	</div>
-    <Button on:click={getSQLResult}>query</Button>
-</section>
-<section>
-    <button on:click={toggleHidden}>{child && child.shown ? 'Hide' : 'Show'}</button>
-    <Hidden bind:this={child}>
-        <Output sqlOutput={sqloutput}/>
-    </Hidden>
-    <Table tableData={$sqlresults} style={blueStyle}/>
-</section>
+    <section>
+        <h2>Query Database</h2>
+        <div>
+            <label for="constrinput">Connection String</label>
+            <input type="text" id="constrinput" bind:value={constrinput} />
+            <label for="query">Query</label>
+            <textarea rows="10" id="query" bind:value={sqlinput}></textarea>
+        </div>
+        <Button on:click={getSQLResult}>query</Button>
+    </section>
+    <section>
+        <button on:click={toggleHidden}>{child && child.shown ? 'Hide' : 'Show'}</button>
+        <Hidden bind:this={child}>
+            <Output sqlOutput={sqloutput}/>
+        </Hidden>
+
+    </section>
 </div>
+    <Table tableData={$sqlresults} style={blueStyle}/>

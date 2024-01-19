@@ -71,23 +71,33 @@
 	<meta name="description" content="Load Data" />
 </svelte:head>
 
-<div class="text-column">
-    <h1>SQL Load</h1>
-
+<div class="mt-4 p-5 bg-secondary-subtle rounded">
     <section>
-        <h2>Add to the Database (uri)</h2>
-        <div>
-            <label for="uri">Uri</label>
-            <input type="text" id="uri" bind:value={queryuri} />
-            <div>
-                {#each $store.entries as [key, value]}
-                    <div>{key}: {value} <button on:click={() => $store.remove(key)} >Delete</button></div>
-                {/each}
-
-                Key:<input type="text" id="key" bind:value={keyinput}><br />
-                Value: <input type="text" id="value" bind:value={valueinput}><br />
+          <div class="row align-items-start">
+            <div class="col">
+                <div>
+                    <pre id="json"></pre>
+                </div>
+            </div>
+            <div class="col">
+                <h1>SQLChk Load</h1>
+                <h2>Load Data into DB</h2>
+                <div>
+                    <label class="form-label" for="uri">Uri</label>
+                    <input class="form-control" type="text" id="uri" bind:value={queryuri} />
+                </div>
+                <div class="input-group">
+                    <input class="form-control" placeholder="key" type="text" id="key" bind:value={keyinput}>
+                    <input class="form-control" placeholder="Value"type="text" id="value" bind:value={valueinput}>
+                </div>
                 <Button on:click={addtoobj}>add to object</Button>
-                <pre id="json"></pre>
+            </div>
+            <div class="col">
+                <div>
+                    {#each $store.entries as [key, value]}
+                        <div>{key}: {value} <button class="btn btn-sm btn-danger" on:click={() => $store.remove(key)} >X</button></div>
+                    {/each}
+                </div>
             </div>
         </div>
         <Button on:click={sendtoapi}>Send to Db</Button>    
