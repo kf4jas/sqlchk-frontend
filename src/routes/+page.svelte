@@ -3,35 +3,15 @@
 	<meta name="description" content="Svelte demo app for interview" />
 </svelte:head>
 
-<section>
+<div class="mt-4 p-5 bg-secondary-subtle rounded">
 	<h1>
 		<span class="welcome">
-			Hello!
+			SQL Checker - this is both a query running system and a data loading system
 		</span>
 
-		I'm Using <br />SvelteKit app
+		I'm Using <br />SvelteKit app and golang
 	</h1>
-</section>
+</div>
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
 </style>
