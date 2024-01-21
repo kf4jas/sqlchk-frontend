@@ -1,71 +1,3 @@
-<script>
-   import { createMapStore } from './MapStore.svelte';
-   import Button from './button.svelte';
-   let queryuri = "/data?table=t";
-
-   const store = createMapStore({
-	});
-    
-    export function add(key,value){
-        $store.set(key,value)
-    }
-
-    export function dumpstore(){
-        return JSON.stringify($store.entries)
-    }
-
-    let keyinput = "";
-    let valueinput = "";
-    let state = {};
-    
-   function addtoobj(event){
-        console.log(queryuri)
-        console.log(dumpstore())
-        console.log(keyinput)
-        $store.set(keyinput,valueinput)
-        state = objectifyStoreState($store.entries)
-        document.getElementById("json").textContent = JSON.stringify(state, undefined, 2);
-    
-        keyinput = "";
-        valueinput = "";
-    }
-
-    function sendtoapi(event){
-        state = objectifyStoreState($store.entries)
-        if (Object.keys(state).length === 0) {
-            alert("state is empty")
-            return
-        }
-        console.log(state);
-        console.log(queryuri);
-
-        let options = {
-            method: 'POST',
-            headers: {
-                'Content-Type':
-                    //'application/json;charset=utf-8'
-                    'application/json'
-            },
-            body: JSON.stringify(state)
-        }
-        fetch(queryuri,options)
-          .then(res =>
-            res.text())
-          .then(d => {
-            console.log(d)
-        })
-        
-    }
-
-    function objectifyStoreState(v){
-        var out = {}
-        for (let i = 0; i < v.length; i++) {
-            out[v[i][0]] = v[i][1];
-        }   
-        return out
-    }
-</script>
-
 <svelte:head>
 	<title>Load Data</title>
 	<meta name="description" content="Load Data" />
@@ -95,11 +27,96 @@
             <div class="col">
                 <div>
                     {#each $store.entries as [key, value]}
-                        <div>{key}: {value} <button class="btn btn-sm btn-danger" on:click={() => $store.remove(key)} >X</button></div>
+                        <div>{key}: {value} <button class="btn btn-sm btn-danger" on:click={removekey(key)} >X</button></div>
                     {/each}
                 </div>
             </div>
         </div>
-        <Button on:click={sendtoapi}>Send to Db</Button>    
+        <Button on:click={sendtoapi}>Send to Db</Button>
     </section>
 </div>
+
+<script>
+    import { onMount } from 'svelte';
+   import { createMapStore } from './MapStore.svelte';
+   import Button from './button.svelte';
+   let queryuri = "/data?table=t";
+   let keyinput = "";
+   let valueinput = "";
+   let state = {};
+   const store = createMapStore({});
+   export function add(key,value){
+        $store.set(key,value)
+   }
+
+   export function rerender(){
+        state = objectifyStoreState($store.entries)
+        document.getElementById("json").textContent = JSON.stringify(state, undefined, 2);
+   }
+
+    export function dumpstore(){
+        return JSON.stringify($store.entries)
+    }
+    
+    export function clearArray() {
+     for  (let i = 0; i < $store.entries.length; i++) {
+         let k = $store.entries[i][0]
+         removekey(k)
+     }
+    }
+   function addtoobj(event){
+        console.log(queryuri)
+        console.log(dumpstore())
+        console.log("$store.entries")
+        $store.set(keyinput,valueinput)
+        rerender()
+        keyinput = "";
+        valueinput = "";
+    }
+
+    function sendtoapi(event){
+        state = objectifyStoreState($store.entries)
+        if (Object.keys(state).length === 0) {
+            alert("state is empty")
+            return
+        }
+        console.log(state);
+        console.log(queryuri);
+
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type':
+                    //'application/json;charset=utf-8'
+                    'application/json'
+            },
+            body: JSON.stringify(state)
+        }
+        fetch(queryuri,options)
+          .then(res =>
+            res.text())
+          .then(d => {
+            console.log("rest")
+            console.log(d)
+            console.log("entries")
+            clearArray()
+            rerender()
+        })
+        
+    }
+
+    function objectifyStoreState(v){
+        var out = {}
+        for (let i = 0; i < v.length; i++) {
+            out[v[i][0]] = v[i][1];
+        }   
+        return out
+    }
+    function removekey(key){
+        $store.remove(key);
+        rerender()
+    }
+    onMount(async () => {
+		    document.getElementById("json").textContent = JSON.stringify({}, undefined, 2);
+	});
+</script>
