@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [0.1.5] - 2024-01-20
 ### Changed
-- changes the load page for a better ux
+- changes the mapstore for a better ux
 
 ## [0.1.4] - 2024-01-19
 ### Added
